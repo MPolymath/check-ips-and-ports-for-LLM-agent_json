@@ -1,0 +1,14 @@
+output/
+results/
+reports/
+screenshots/
+*.log
+*.json
+*.csv
+*.html
+.env
+*.key
+*.pem
+*.p12
+*.pcap
+*.pcapng
