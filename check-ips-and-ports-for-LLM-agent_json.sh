@@ -281,7 +281,10 @@ scan_open_ports() {
     local target="$1"
     local ports_csv="$2"
 
-    nmap -sT -p"$ports_csv" "$NMAP_TIMING" "$target" 2>/dev/null |
+    # -sT connect scan works unprivileged and through proxychains (it uses
+    # libc connect(), which proxychains hooks). -Pn -n skip host discovery
+    # and DNS, which waste time and can behave badly through a tunnel.
+    nmap -sT -Pn -n -p"$ports_csv" "$NMAP_TIMING" "$target" 2>/dev/null |
         awk '/^[0-9]+\/tcp[[:space:]]+open/ {split($1,a,"/"); print a[1]}'
 }
 
